@@ -67,8 +67,8 @@ public class BankAccountManagementImpl implements BankAccountManagement {
             String operation = String.format("Operation : %s ; Date : %s ; Deposit Amount : %s ; " +
                     " Withdrawal Amount : %s ;" + " Description : %s ; "+
                     " Balance : %s ; ",op.getType().name(), op.getDate()
-                    ,op.getType().equals(OperationTypeEnum.DEPOSIT)? op.getAmount() : null
-                    ,op.getType().equals(OperationTypeEnum.WITHDRAWAL)? op.getAmount() : null
+                    ,op.getType().equals(OperationTypeEnum.DEPOSIT)? op.getAmount() : 0
+                    ,op.getType().equals(OperationTypeEnum.WITHDRAWAL)? op.getAmount() : 0
                     ,op.getDescription()
                     ,op.getBalance());
             System.out.println(operation);

@@ -1,9 +1,9 @@
 package bank.account.interfaces;
 
 import bank.account.constants.Messages;
-import bank.account.constants.OperationType;
 import bank.account.entities.AccountOperation;
 import bank.account.entities.BankAccount;
+import bank.account.enums.OperationTypeEnum;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -29,12 +29,12 @@ public class BankAccountManagementImpl implements BankAccountManagement {
         if(account == null){
             return;
         }
-        BigDecimal newAmount = account.getBalance().add(amount);
+        BigDecimal balanceAfterOperation = account.getBalance().add(amount);
         AccountOperation depositOperation = new AccountOperation(
-                account.getAccountNumber(), OperationType.DEPOSIT, new Date(), amount, account.getBalance(),null,description);
+                account.getAccountNumber(), OperationTypeEnum.DEPOSIT, new Date(), amount, balanceAfterOperation,null,description);
         account.getOperations().add(depositOperation);
         account.setModifiedDate(new Date());
-        account.setBalance(newAmount);
+        account.setBalance(balanceAfterOperation);
     }
 
     public void withdrawal(BankAccount account, BigDecimal amount, String description) {
@@ -46,23 +46,34 @@ public class BankAccountManagementImpl implements BankAccountManagement {
         if(account.getBalance().compareTo(amount)<0){
             comment = Messages.INSUFFICIENT_BALANCE;
         }
-        BigDecimal newAmount = account.getBalance().subtract(amount);
+        BigDecimal balanceAfterOperation = account.getBalance().subtract(amount);
         AccountOperation withdrawalOperation = new AccountOperation(
-                account.getAccountNumber(), OperationType.WITHDRAWAL, new Date(), amount, account.getBalance(),comment,description);
+                account.getAccountNumber(), OperationTypeEnum.WITHDRAWAL, new Date(), amount, balanceAfterOperation,comment,description);
         account.getOperations().add(withdrawalOperation);
         account.setModifiedDate(new Date());
-        account.setBalance(newAmount);
+        account.setBalance(balanceAfterOperation);
     }
 
-    public List<AccountOperation> getOperationsHistory(BankAccount account, Date date) {
-        if(account == null){
+    public List<AccountOperation> getOperationsHistory(BankAccount account, Date firstDate, Date secondDate) {
+        if(account == null || firstDate == null || secondDate ==null ){
             return new ArrayList<AccountOperation>();
         }
-        if(date == null){
-           return account.getOperations();
-        }
-       return   account.getOperations()
-               .stream()
-               .filter(op->date.equals(op.getDate())).collect(Collectors.toList());
+        List<AccountOperation> operations = account.getOperations()
+                .stream()
+                .filter(op -> (op.getDate().after(firstDate) && op.getDate().before(secondDate)) ||
+                        (op.getDate().equals(firstDate) || (op.getDate().equals(secondDate))))
+                .collect(Collectors.toList());
+        operations.stream().forEach(op->{
+            String operation = String.format("Operation : %s ; Date : %s ; Deposit Amount : %s ; " +
+                    " Withdrawal Amount : %s ;" + " Description : %s ; "+
+                    " Balance : %s ; ",op.getType().name(), op.getDate()
+                    ,op.getType().equals(OperationTypeEnum.DEPOSIT)? op.getAmount() : null
+                    ,op.getType().equals(OperationTypeEnum.WITHDRAWAL)? op.getAmount() : null
+                    ,op.getDescription()
+                    ,op.getBalance());
+            System.out.println(operation);
+        });
+
+        return operations;
     }
 }

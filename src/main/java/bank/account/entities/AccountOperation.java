@@ -1,5 +1,6 @@
 package bank.account.entities;
 
+import bank.account.enums.OperationTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +14,10 @@ import java.util.Date;
 public class AccountOperation {
 
     private String accountNumber;
-    // 0 is a Deposit operation and 1 is a Withdrawal operation
-    private Integer type;
+    private Enum<OperationTypeEnum> type;
     private Date date;
     private BigDecimal amount;
-    private BigDecimal initialBalance;
+    private BigDecimal balance;
     private String comment;
     private String description;
 

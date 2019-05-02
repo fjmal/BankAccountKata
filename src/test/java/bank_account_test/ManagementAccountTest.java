@@ -4,11 +4,10 @@ package bank_account_test;
 import bank.account.BankAccountApplication;
 import bank.account.constants.Currency;
 import bank.account.constants.Messages;
-import bank.account.constants.OperationType;
 import bank.account.entities.AccountOperation;
 import bank.account.entities.BankAccount;
-import org.junit.Before;
-import org.junit.Test;
+import bank.account.enums.OperationTypeEnum;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= BankAccountApplication.class)
@@ -59,15 +57,15 @@ public class ManagementAccountTest extends BankAccountCreation {
         bankAccountManagement.deposit(account,new BigDecimal(300),"PRIME");
         bankAccountManagement.withdrawal(account,new BigDecimal(100),"PHARMACY CREDIT CARD");
         //treatment
-        List<AccountOperation> operations = bankAccountManagement.getOperationsHistory(account,null);
-        List<AccountOperation> depositOperations = bankAccountManagement.getOperationsHistory(account,new Date())
-                                                   .stream()
-                                                   .filter(op-> OperationType.DEPOSIT.equals(op.getType()))
+        List<AccountOperation> operations = bankAccountManagement.getOperationsHistory(account,new Date(),new Date());
+        List<AccountOperation> depositOperations = operations.stream()
+                                                   .filter(op-> OperationTypeEnum.DEPOSIT.equals(op.getType()))
                                                    .collect(Collectors.toList());
 
         //result
-        assertEquals(operations,3);
-        assertEquals(operations,2);
+        assertEquals(operations.size(),3);
+        assertEquals(depositOperations.size(),2);
+
 
 
     }

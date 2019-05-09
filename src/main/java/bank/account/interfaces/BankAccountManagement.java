@@ -12,7 +12,7 @@ public interface BankAccountManagement {
         BankAccount create(String accountNumber, BigDecimal initialAmount, String currency);
         void deposit(BankAccount account, BigDecimal amount, String description);
         void withdrawal(BankAccount account, BigDecimal amount, String description);
-        List<AccountOperation> getOperationsHistory(BankAccount account, Date firstDate,Date SecondDate);
+        List<AccountOperation> getOperationsHistory(BankAccount account, Date firstDate,Date secondDate);
 
 
 

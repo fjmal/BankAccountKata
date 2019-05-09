@@ -1,9 +1,10 @@
-package bank.account.interfaces;
+package bank.account.impl;
 
-import bank.account.constants.Messages;
 import bank.account.entities.AccountOperation;
 import bank.account.entities.BankAccount;
+import bank.account.enums.MessageEnum;
 import bank.account.enums.OperationTypeEnum;
+import bank.account.interfaces.BankAccountManagement;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -44,7 +45,7 @@ public class BankAccountManagementImpl implements BankAccountManagement {
         }
         String comment = null;
         if(account.getBalance().compareTo(amount)<0){
-            comment = Messages.INSUFFICIENT_BALANCE;
+            comment = MessageEnum.INSUFFICIENT_BALANCE.label;
         }
         BigDecimal balanceAfterOperation = account.getBalance().subtract(amount);
         AccountOperation withdrawalOperation = new AccountOperation(

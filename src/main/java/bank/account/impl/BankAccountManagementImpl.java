@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class BankAccountManagementImpl implements BankAccountManagement {
 
     public BankAccount create(String accountNumber, BigDecimal initialAmount, String currency) {

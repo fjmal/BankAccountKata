@@ -21,16 +21,20 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= BankAccountApplication.class)
-public class ManagementAccountTest extends BankAccountCreation  {
+public class ManagementAccountTest  {
+    
+     @Autowired
+    protected BankAccountManagement bankAccountManagement;
 
     private BankAccount account;
+    
 
     private static BigDecimal initialAmount = new BigDecimal(100);
     private static String accountNumber = "BHNJ1234";
 
     @Before
     public void createBankAccount(){
-        account = createBankAccount(accountNumber, initialAmount, CurrencyEnum.EURO.label);
+        account = bankAccountManagement.create(accountNumber, initialAmount, CurrencyEnum.EURO.label);
     }
     // user Stories 1
     @Test

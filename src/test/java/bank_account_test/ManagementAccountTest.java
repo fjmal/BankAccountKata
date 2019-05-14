@@ -26,7 +26,7 @@ public class ManagementAccountTest extends BankAccountCreation  {
     private BankAccount account;
 
     private static BigDecimal initialAmount = new BigDecimal(100);
-    private static String accountNumber = DataEnum.ACCOUNT_NUMBER.value;
+    private static String accountNumber = "BHNJ1234";
 
     @Before
     public void createBankAccount(){
@@ -35,17 +35,17 @@ public class ManagementAccountTest extends BankAccountCreation  {
     // user Stories 1
     @Test
     public void depositMoneyTest(){
-        bankAccountManagement.deposit(account,new BigDecimal(200),DataEnum.DEPOSIT_DESCRIPTION_PRIME.value);
+        bankAccountManagement.deposit(account,new BigDecimal(200),"PRIME");
         assertEquals(account.getBalance(), (new BigDecimal(300)));
     }
 
     // user stories 2
     @Test
     public void withdrawalMoneyTest(){
-        bankAccountManagement.withdrawal(account,new BigDecimal(50.5),DataEnum.WITHDRAWAL_DESCRIPTION_SUPERMARKET.value);
+        bankAccountManagement.withdrawal(account,new BigDecimal(50.5),"SUPERMARKET CREDIT CARD");
         assertEquals(account.getBalance(), (new BigDecimal(49.5)));
 
-        bankAccountManagement.withdrawal(account,new BigDecimal(100),DataEnum.WITHDRAWAL_DESCRIPTION_PHARMACY.value);
+        bankAccountManagement.withdrawal(account,new BigDecimal(100),"PHARMACY CREDIT CARD");
         assertEquals(account.getBalance(), (new BigDecimal(-50.5)));
         assertEquals(account.getOperations().get(1).getComment(), MessageEnum.INSUFFICIENT_BALANCE.label);
     }
@@ -53,9 +53,9 @@ public class ManagementAccountTest extends BankAccountCreation  {
     @Test
     public void getOperationsHistory(){
         // init data
-        bankAccountManagement.deposit(account,new BigDecimal(300),DataEnum.DEPOSIT_DESCRIPTION_SALARY.value);
-        bankAccountManagement.deposit(account,new BigDecimal(300),DataEnum.DEPOSIT_DESCRIPTION_PRIME.value);
-        bankAccountManagement.withdrawal(account,new BigDecimal(100),DataEnum.WITHDRAWAL_DESCRIPTION_PHARMACY.value);
+        bankAccountManagement.deposit(account,new BigDecimal(300),"SALARY");
+        bankAccountManagement.deposit(account,new BigDecimal(300),"PRIME");
+        bankAccountManagement.withdrawal(account,new BigDecimal(100),"PHARMACY CREDIT CARD");
         //treatment
         List<AccountOperation> operations = bankAccountManagement.getOperationsHistory(account,new Date(),new Date());
         List<AccountOperation> depositOperations = operations.stream()

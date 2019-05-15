@@ -6,6 +6,7 @@ import bank.account.enums.MessageEnum;
 import bank.account.enums.OperationTypeEnum;
 import bank.account.interfaces.BankAccountManagement;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -65,14 +66,7 @@ public class BankAccountManagementImpl implements BankAccountManagement {
                         (op.getDate().equals(firstDate) || (op.getDate().equals(secondDate))))
                 .collect(Collectors.toList());
         operations.stream().forEach(op->{
-            String operation = String.format("Operation : %s ; Date : %s ; Deposit Amount : %s ; " +
-                    " Withdrawal Amount : %s ;" + " Description : %s ; "+
-                    " Balance : %s ; ",op.getType().name(), op.getDate()
-                    ,op.getType().equals(OperationTypeEnum.DEPOSIT)? op.getAmount() : 0
-                    ,op.getType().equals(OperationTypeEnum.WITHDRAWAL)? op.getAmount() : 0
-                    ,op.getDescription()
-                    ,op.getBalance());
-            System.out.println(operation);
+            System.out.println(op.toString());
         });
 
         return operations;

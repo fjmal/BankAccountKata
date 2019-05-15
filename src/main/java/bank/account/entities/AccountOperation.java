@@ -21,4 +21,15 @@ public class AccountOperation {
     private String comment;
     private String description;
 
+    @Override
+    public String toString() {
+           String operation = String.format("Operation : %s ; Date : %s ; Deposit Amount : %s ; " +
+                        " Withdrawal Amount : %s ;" + " Description : %s ; "+
+                        " Balance : %s ; ",type.name(), date
+                ,OperationTypeEnum.DEPOSIT.equals(type)? amount: 0
+                ,OperationTypeEnum.WITHDRAWAL.equals(type)? amount : 0
+                ,description
+                ,balance);
+        return operation;
+    }
 }

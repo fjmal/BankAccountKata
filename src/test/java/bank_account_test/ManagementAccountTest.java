@@ -7,8 +7,10 @@ import bank.account.entities.BankAccount;
 import bank.account.enums.CurrencyEnum;
 import bank.account.enums.MessageEnum;
 import bank.account.enums.OperationTypeEnum;
+import bank.account.interfaces.BankAccountManagement;
 import org.junit.*;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -23,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(classes= BankAccountApplication.class)
 public class ManagementAccountTest  {
     
-     @Autowired
+    @Autowired
     protected BankAccountManagement bankAccountManagement;
 
     private BankAccount account;
